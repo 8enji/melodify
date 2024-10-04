@@ -56,3 +56,66 @@ h1 {
 p {
     line-height: 1.6;
 }
+
+/* Table Styles */
+table {
+    width: 50%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table, th, td {
+    border: 1px solid #1DB954; /* Spotify green color */
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #1DB954; /* Spotify green color */
+    color: #fff;
+}
+
+/* Additional styles for responsiveness */
+@media (max-width: 600px) {
+    table, th, td {
+        display: block;
+        width: 100%;
+    }
+
+    th {
+        display: none; /* Hide the header on small screens */
+    }
+
+    tr {
+        margin-bottom: 10px;
+        border: 1px solid #ddd; /* Border around each row */
+    }
+
+    td {
+        text-align: right;
+        padding: 10px;
+        position: relative;
+    }
+
+    td::before {
+        content: attr(data-label); /* Use data-label for column names */
+        position: absolute;
+        left: 10px;
+        font-weight: bold;
+        text-align: left;
+    }
+}
+
+/* Link Styles */
+a {
+    color: #1DB954; /* Spotify green */
+    text-decoration: none; /* Remove underline */
+}
+
+a:hover {
+    text-decoration: underline; /* Add underline on hover */
+    color: #1ed760; /* Slightly lighter green for hover effect */
+}
