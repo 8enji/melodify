@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Melodify - Midterm</title>
+    <title>Melodify - Proposal</title>
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
@@ -20,7 +20,71 @@
     </div>
     <div class="content">
         <h1>Midterm Report</h1>
-        <p>Coming soon...</p>
+        
+        <!-- Introduction Section -->
+        <section>
+            <h2>Introduction</h2>
+            <p>
+                Our team aims to create a tool to classify songs into genres while also recommending songs to users based on their listening history. Previous work has been done in this domain, such as a Deep Learning model which uses spotify’s explore/exploit strategy to achieve 80% accuracy when making recommendations [1]. Further, work has also been done to achieve 60% accuracy when classifying music genres with traditional ML methods [2]. Our goal is to build off this previous work, and create models capable of performing equally as well or better. 
+            </p>
+            <p>
+                We will be using a dataset with over 100,000 songs in it with features ranging from artist_name to danceability and loudness. The dataset can be found here: <a href=https://www.kaggle.com/datasets/maharshipandya/-spotify-tracks-dataset/data>Kaggle Dataset</a>
+            </p>
+        </section>
+
+        <!-- Problem Section -->
+        <section>
+            <h2>Problem</h2>
+            <p>
+                Music classification and recommendation is an important element of modern music streaming platforms; however, it remains a time consuming endeavor to classify and build your own playlists. To automate this process and tailor to individual user preferences requires sophisticated machine learning algorithms that we are looking to build on. By enhancing genre classification and refining song recommendation and playlist building using machine learning algorithms, music exploration will become a seamlessly efficient task. 
+            </p>
+        </section>
+
+        <!-- Methods Section -->
+        <section>
+            <h2>Methods</h2>
+            <h3>Data Processing</h3>
+            <p>
+                We will first clean the data to ensure there are no missing data points. As each song is different even though they are composed by the same artists we can’t replace the data. The same artist could make music in different genres so we will remove the null data. 
+                <br><br>
+                As we will be classifying songs by genre and genre is given as a string in the dataset we will need to convert the genres to numerical data for our decision tree model. We will be using one-hot encoding to convert strings to numbers. The explicit column in the dataset is given as true and false values which we will convert to binary 1 and 0, respectively. Also, we will drop some columns that we deem unnecessary for classification due to little efficacy.
+                <br><br>
+                For the numerical data that isn’t binary we have in our dataset we will be normalizing them using StandardScaler to ensure they are all in the same range of values. This is important for some of our algorithms like random forest/decision tree which will need the data to be more uniform for better performance. 
+                <br><br>
+                We will also be binning some of the data such as tempo, loudness, “speechiness”, etc. We will be placing the numerical values in three bins low, medium, and high given by numerical values 0, 1, and 2.
+            </p>
+            <h3>Machine Learning</h3>
+            <p>
+                We will use K-means clustering, a recommendation algorithm, and a decision-tree model to classify songs into specific genres or attributes. K-means, which is well-suited for our preprocessed categorical data, will be used for clustering songs with similar characteristics such as tempo and energy while our recommendation algorithm will be designed to learn from past listening history and preferences to enhance our playlist or song recommendations. The motivation for a decision tree is two-fold in that it will allow us to classify songs based on their respective attributes using our binarized features while also potentially reducing our feature dimensionality.
+            </p>
+        </section>
+
+        <!-- Results Section -->
+        <section>
+            <h2>Discussion of Results</h2>
+            <p>
+                We plan to evaluate the performance of our ML models using accuracy (how well the model predicts the correct genre for a song) after assigning clusters a label with the most frequent genre. We can also find the silhouette score to evaluate the quality of our clusters, and use cross-entropy loss or log-loss to evaluate our recommendation [3].  Our main project goal is to accurately classify songs into their respective genres based on features in our dataset (for example, duration and tempo). We also plan on creating a recommendation model to generate playlists or suggest songs based on what songs you like or have listened to in the past. We aim to use k-means clustering and decision trees to improve or at least equal upon the 60% accuracy that has been previously achieved in previous studies. We also aim to have a silhouette score of around 0.4-0.5 as there are many dimensions in our dataset, and we will try to minimize our cross entropy loss for our recommendation model (<0.5).
+            </p>
+            <h3>K-means</h3>
+            <h4>Visualization</h4>
+            <img src="./images/IMG_7871.png" alt="Pairwise Clustering" height="400px">
+            <span>
+                <img src="./images/IMG_6972.png" alt="Pairwise Clustering" height="250px">
+                <img src="./images/IMG_8477.png" alt="Pairwise Clustering" height="250px">
+            </span>
+            <p>
+                After visualizing our data by looking at the first 4 principal components compared pairwise, we can see some clear decision boundaries for each of our clusters in these multiple dimensions. While some clusters seem to have some common overlap (which suggests that a lot of these data points share similarities across clusters within those principal components), looking at other dimensions reveals that there is actually some distance between the clusters. While reducing to four dimensions allows us to visualize the data better and see these clear boundaries, we may have lost some of the original variance in the data that existed in the higher dimensions.
+                <br><br>
+                We found that our silhouette score, which can range from -1 to 1, is 0.45211…. A lower silhouette score means that points are blending in with the clusters around it, and it is hard to tell points from their own cluster vs. their neighboring clusters. A higher silhouette score indicates that clusters are distinct with not much overlap. Our score of ~0.452 shows that our clustering has a decent degree of separation among clusters, though there is a moderate amount of overlapping between clusters that causes points to be hard to distinguish from neighboring clusters. Music data doesn’t and shouldn’t fall exactly into really distinct clusters, so we suspect this silhouette score to be sensical as many songs in our dataset can have similar features even across categories. 
+            </p>
+            <h4>Analysis</h4>
+            <p>In both the 2D and 3D PCA visualizations, some clusters show strong separation, particularly along different principal components (e.g., cluster 3 and cluster 4 in PCA1 vs PCA2). While some clusters appear to overlap in some 2D plots, note that the PC axis space is a higher dimension and thus allows for more significant separation along different axes. The 3D plot conveys this clearer separation as certain clusters appear to form more distinct layers along different PCs. Note that the less strong boundaries in the 2D plots indicate that those components/features may not capture distinct characteristics for each cluster. Our Silhouette score of 0.452 indicates moderate to strong performance, particularly for practical applications. This score also aligns with the separated decision boundaries and slight overlaps along some plots in the visualizations.</p>
+            <h4>Next Steps</h4>
+            <p>To improve upon this model, we would consider improved and more nuanced feature engineering using different music factors which could enhance the feature separation. We could also apply decision trees to prune certain features that are not important before using PCA. We might also use t-SNE or UMAP for observing potentially more complex and nonlinear structures and relations. We can also explore Elbow pruning more to find the perfect choice of clusters and PCA components. We can also incorporate and experiment with different clustering algorithms such as GMM and DBSCAN. We also plan on continuing with our other originally planned ML models, such as decision tree models.</p>
+
+        </section>
+        
+        <h3>The Gantt Chart, Contribution Table, and References can be found in the sidebar.</h3>
     </div>
 </body>
 </html>
