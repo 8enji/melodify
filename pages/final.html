@@ -20,7 +20,203 @@
     </div>
     <div class="content">
         <h1>Final Report</h1>
-        <p>Coming soon...</p>
+
+
+        <!-- Introduction Section -->
+        <section>
+            <h2>Introduction</h2>
+            <p>
+                Our team aims to create a tool to classify songs into genres while also recommending songs to users based on their listening history. Previous work has been done in this domain, such as a Deep Learning model which uses spotify’s explore/exploit strategy to achieve 80% accuracy when making recommendations [1]. Further, work has also been done to achieve 60% accuracy when classifying music genres with traditional ML methods [2]. Our goal is to build off this previous work, and create models capable of performing equally as well or better. 
+            </p>
+            <p>
+                We will be using a dataset with over 100,000 songs in it with features ranging from artist_name to danceability and loudness. The dataset can be found here: <a href=https://www.kaggle.com/datasets/maharshipandya/-spotify-tracks-dataset/data>Kaggle Dataset</a>
+            </p>
+        </section>
+
+        <!-- Problem Section -->
+        <section>
+            <h2>Problem</h2>
+            <p>
+                Music classification and recommendation is an important element of modern music streaming platforms; however, it remains a time consuming endeavor to classify and build your own playlists. To automate this process and tailor to individual user preferences requires sophisticated machine learning algorithms that we are looking to build on. By enhancing genre classification and refining song recommendation and playlist building using machine learning algorithms, music exploration will become a seamlessly efficient task. 
+            </p>
+        </section>
+
+        <!-- Methods Section -->
+        <section>
+            <h2>Methods</h2>
+            <h3>Data Processing</h3>
+            <p>
+                We will first clean the data to ensure there are no missing data points. As each song is different even though they are composed by the same artists we can’t replace the data. The same artist could make music in different genres so we will remove the null data. 
+                <br><br>
+                As we will be classifying songs by genre and genre is given as a string in the dataset we will need to convert the genres to numerical data for our decision tree model. We will be using one-hot encoding to convert strings to numbers. The explicit column in the dataset is given as true and false values which we will convert to binary 1 and 0, respectively. Also, we will drop some columns that we deem unnecessary for classification due to little efficacy.
+                <br><br>
+                For the numerical data that isn’t binary we have in our dataset we will be normalizing them using StandardScaler to ensure they are all in the same range of values. This is important for some of our algorithms like random forest/decision tree which will need the data to be more uniform for better performance. 
+                <br><br>
+                We will also be binning some of the data such as tempo, loudness, “speechiness”, etc. We will be placing the numerical values in three bins low, medium, and high given by numerical values 0, 1, and 2.
+            </p>
+            <h3>Machine Learning</h3>
+            <p>
+                We will use K-means clustering, a recommendation algorithm, and a decision-tree model to classify songs into specific genres or attributes. K-means, which is well-suited for our preprocessed categorical data, will be used for clustering songs with similar characteristics such as tempo and energy while our recommendation algorithm will be designed to learn from past listening history and preferences to enhance our playlist or song recommendations. The motivation for a decision tree is two-fold in that it will allow us to classify songs based on their respective attributes using our binarized features while also potentially reducing our feature dimensionality.
+            </p>
+        </section>
+
+        <!-- Results Section -->
+        <section>
+            <h2>Discussion of Results</h2>
+            <p>
+                Our plan was to evaluate the performance of our ML models using accuracy (how well the model predicts the correct genre for a song) after assigning clusters a label with the most frequent genre. We can also find the silhouette score to evaluate the quality of our clusters, and use cross-entropy loss or log-loss to evaluate our recommendation [3].  Our main project goal is to accurately classify songs into their respective genres based on features in our dataset (for example, duration and tempo). We also plan on creating a recommendation model to generate playlists or suggest songs based on what songs you like or have listened to in the past. We aim to use k-means clustering and decision trees to improve or at least equal upon the 60% accuracy that has been previously achieved in previous studies. We also aim to have a silhouette score of around 0.4-0.5 as there are many dimensions in our dataset, and we will try to minimize our cross entropy loss for our recommendation model (<0.5).
+            </p>
+            <h3>K-means</h3>
+            <h4>Visualization</h4>
+            <img src="./images/IMG_7871.png" alt="Pairwise Clustering" height="400px">
+            <span>
+                <img src="./images/IMG_6972.png" alt="Pairwise Clustering" height="250px">
+                <img src="./images/IMG_8477.png" alt="Pairwise Clustering" height="250px">
+            </span>
+            <p>
+                After visualizing our data by looking at the first 4 principal components compared pairwise, we can see some clear decision boundaries for each of our clusters in these multiple dimensions. While some clusters seem to have some common overlap (which suggests that a lot of these data points share similarities across clusters within those principal components), looking at other dimensions reveals that there is actually some distance between the clusters. While reducing to four dimensions allows us to visualize the data better and see these clear boundaries, we may have lost some of the original variance in the data that existed in the higher dimensions.
+                <br><br>
+                We found that our silhouette score, which can range from -1 to 1, is 0.45211…. A lower silhouette score means that points are blending in with the clusters around it, and it is hard to tell points from their own cluster vs. their neighboring clusters. A higher silhouette score indicates that clusters are distinct with not much overlap. Our score of ~0.452 shows that our clustering has a decent degree of separation among clusters, though there is a moderate amount of overlapping between clusters that causes points to be hard to distinguish from neighboring clusters. Music data doesn’t and shouldn’t fall exactly into really distinct clusters, so we suspect this silhouette score to be sensical as many songs in our dataset can have similar features even across categories. 
+            </p>
+            <h4>Analysis</h4>
+            <p>In both the 2D and 3D PCA visualizations, some clusters show strong separation, particularly along different principal components (e.g., cluster 3 and cluster 4 in PCA1 vs PCA2). While some clusters appear to overlap in some 2D plots, note that the PC axis space is a higher dimension and thus allows for more significant separation along different axes. The 3D plot conveys this clearer separation as certain clusters appear to form more distinct layers along different PCs. Note that the less strong boundaries in the 2D plots indicate that those components/features may not capture distinct characteristics for each cluster. Our Silhouette score of 0.452 indicates moderate to strong performance, particularly for practical applications. This score also aligns with the separated decision boundaries and slight overlaps along some plots in the visualizations.</p>
+            <h4>Next Steps</h4>
+            <p>To improve upon this model, we would consider improved and more nuanced feature engineering using different music factors which could enhance the feature separation. We could also apply decision trees to prune certain features that are not important before using PCA. We might also use t-SNE or UMAP for observing potentially more complex and nonlinear structures and relations. We can also explore Elbow pruning more to find the perfect choice of clusters and PCA components. We can also incorporate and experiment with different clustering algorithms such as GMM and DBSCAN. We also plan on continuing with our other originally planned ML models, such as decision tree models.</p>
+
+            <h3>Random Forest Classifier</h3>
+            <p>
+                In our proposal, we planned to use a Decision Tree model to perform supervised learning on our dataset. Ultimately, our goal was to create a model capable of multi-class classification of song genre. After our class lecture on Random Forests, we decided to implement a Random Forest model since it capitalizes on the capability of Decision Trees while also incorporating bagging to reduce potential overfitting (a significant risk when using decision trees). Our Random Forest model achieved an overall accuracy of 50%. At first glance, 50% accuracy is not too impressive. However, considering that there are 14 different classes in our dataset, 50% accuracy is significantly better than the accuracy of random guessing which would be around 7%. Below you can see a tabular representation of the models performance over the different classes: 
+            </p>
+            <p >
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Genre</th>
+                            <th>Precision</th>
+                            <th>Recall</th>
+                            <th>F1-Score</th>
+                            <th>Support</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Ambient/Chill</td>
+                            <td>0.54</td>
+                            <td>0.56</td>
+                            <td>0.55</td>
+                            <td>999</td>
+                        </tr>
+                        <tr>
+                            <td>Classical/Instrumental</td>
+                            <td>0.49</td>
+                            <td>0.49</td>
+                            <td>0.49</td>
+                            <td>617</td>
+                        </tr>
+                        <tr>
+                            <td>Country/Folk</td>
+                            <td>0.33</td>
+                            <td>0.34</td>
+                            <td>0.33</td>
+                            <td>581</td>
+                        </tr>
+                        <tr>
+                            <td>Electronic/Dance</td>
+                            <td>0.65</td>
+                            <td>0.70</td>
+                            <td>0.67</td>
+                            <td>3484</td>
+                        </tr>
+                        <tr>
+                            <td>Hip-Hop/Rap</td>
+                            <td>0.26</td>
+                            <td>0.28</td>
+                            <td>0.27</td>
+                            <td>212</td>
+                        </tr>
+                        <tr>
+                            <td>Indie/Alternative</td>
+                            <td>0.35</td>
+                            <td>0.30</td>
+                            <td>0.32</td>
+                            <td>1065</td>
+                        </tr>
+                        <tr>
+                            <td>Jazz/Blues</td>
+                            <td>0.46</td>
+                            <td>0.39</td>
+                            <td>0.42</td>
+                            <td>624</td>
+                        </tr>
+                        <tr>
+                            <td>Latin/World</td>
+                            <td>0.47</td>
+                            <td>0.63</td>
+                            <td>0.54</td>
+                            <td>4751</td>
+                        </tr>
+                        <tr>
+                            <td>Mood</td>
+                            <td>0.46</td>
+                            <td>0.30</td>
+                            <td>0.36</td>
+                            <td>626</td>
+                        </tr>
+                        <tr>
+                            <td>Other</td>
+                            <td>0.33</td>
+                            <td>0.25</td>
+                            <td>0.28</td>
+                            <td>2049</td>
+                        </tr>
+                        <tr>
+                            <td>Pop</td>
+                            <td>0.42</td>
+                            <td>0.33</td>
+                            <td>0.37</td>
+                            <td>2041</td>
+                        </tr>
+                        <tr>
+                            <td>R&amp;B/Soul/Funk</td>
+                            <td>0.35</td>
+                            <td>0.20</td>
+                            <td>0.25</td>
+                            <td>1225</td>
+                        </tr>
+                        <tr>
+                            <td>Rock/Metal</td>
+                            <td>0.58</td>
+                            <td>0.64</td>
+                            <td>0.61</td>
+                            <td>3318</td>
+                        </tr>
+                        <tr>
+                            <td>Themed/Children</td>
+                            <td>0.62</td>
+                            <td>0.46</td>
+                            <td>0.53</td>
+                            <td>1208</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </p>
+
+            <h4>Visualizations</h4>
+            <p>Below is a plot of the feature importance determined from the Random Forest classifier. As you can see, the most important feature is "acousticness". However, all features other than "time_signature" and "explicit" are similarly important. This makes sense since all genres contain explicit songs and time signatures vary greatly even within genres.</p>
+            <img src="./images/IMG_fi.png" alt="Feature Importance" height="400px">
+
+            <p>Further, we have plotted the confusion matrix to easily visualize how our classifier performs across different classes. An important thing to note here is that the majority class such as Latin/World and Electronic/Dance perform significantly better than minority classes. This could be a coincidence, but this is highly unlikely. We tried explicitly weighting classes within the Random Forest classifier, but this did not fix the issue. In the future, we could attempt techniques such as SMOTE to create synthetic data which would balance our data set. </p>
+            <img src="./images/IMG_cm.png" alt="Feature Importance" height="800px">
+
+            <h4>Analysis</h4>
+            Our Random Forest classifier achieved an accuracy of 50%, which is signifcantly better than random guessing (14 classes leads to a 7% accuracy if randomly guessing). Further, our classifier achieved the highest F1 scores on the following genres: Electronic/Dance, Rock/Metal, and Ambient/Chill. These results make intuitive sense since these genres all offer very distinct musical features. Electronic music is uniquely fast, rock music is uniquely loud, and ambient music is uniquely quiet and acoustic. 
+
+            <h4>Next Steps</h4>
+            <p>Like stated previously, our Random Forest Classifier performed significantly better for majority classes. In the future, we would like to perform analysis to determine if this was a coincidence or if it was due the the unbalanced trainign datat. To perform thsi experiment, we could under sample the majority classes to create balanced training data. If we dtermine it is not a coicidence, we could perform SMOTE to create snythethic training data. Hopefully, balanced training data would lead to a more balanced classifier accross different classes. <br> 
+              Also, a more exhaustive grid search could be performed to determine optimal hyper-paramters. We performed a grid search, but due to limited compute resources we were only able to test abour 4 different values for each signicant hyper-parameter.
+            </p>
+        </section>
+
     </div>
 </body>
 </html>
