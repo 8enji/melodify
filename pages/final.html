@@ -83,6 +83,70 @@
             <h4>Next Steps</h4>
             <p>To improve upon this model, we would consider improved and more nuanced feature engineering using different music factors which could enhance the feature separation. We could also apply decision trees to prune certain features that are not important before using PCA. We might also use t-SNE or UMAP for observing potentially more complex and nonlinear structures and relations. We can also explore Elbow pruning more to find the perfect choice of clusters and PCA components. We can also incorporate and experiment with different clustering algorithms such as GMM and DBSCAN. We also plan on continuing with our other originally planned ML models, such as decision tree models.</p>
 
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Music Recommendation Report</title>
+                <style>
+                    body {
+                        font-family: Arial, sans-serif;
+                        line-height: 1.6;
+                        margin: 20px;
+                    }
+                    h2 {
+                        color: #333;
+                    }
+                    h3 {
+                        color: #555;
+                    }
+                    table {
+                        width: 100%;
+                        border-collapse: collapse;
+                        margin: 20px 0;
+                    }
+                    th, td {
+                        padding: 8px 12px;
+                        border: 1px solid #ddd;
+                        text-align: left;
+                    }
+                    th {
+                        background-color: #f4f4f4;
+                    }
+                </style>
+            </head>
+            <body>
+            
+            <h2>K-Nearest Neighbors (KNN) for Music Recommendations</h2>
+            
+            <p>For the music recommendation task, we implemented a K-Nearest Neighbors (KNN) model that uses track features such as popularity, danceability, energy, loudness, speechiness, acousticness, instrumentalness, liveness, valence, and tempo to compute similarities between tracks. We applied this model to recommend tracks based on the closest neighbors in the feature space, utilizing the Euclidean distance metric.</p>
+            
+            <h4>Overview of the KNN Model</h4>
+            <p>The KNN model works by identifying the most similar tracks to a given set of input tracks. We used the <strong>StandardScaler</strong> to normalize the feature values before applying the KNN algorithm, ensuring that all features contribute equally to the similarity calculation.</p>
+            <p>In this section, we tested the recommendation model using <strong>centroid aggregation</strong>, where the average feature vector of the input tracks is used to compute the similarity scores for potential recommendations. We also used the <strong>average</strong> aggregation method to combine the similarity scores from multiple input tracks.</p>
+            
+            <h4>Example Music Recommendations</h4>
+            <p>For a given set of input tracks, the model calculates the similarity to other tracks in the dataset and provides the top recommendations. Below are the top 5 recommended tracks based on their similarity to a given input set:</p>
+            
+            <img src="./images/knn_recommendation.png" height="400px">
+            
+            
+            <h4>Analysis of the Results</h4>
+            <p>The KNN model effectively identified tracks with high similarity scores, suggesting that the model was able to capture musical features that closely match the input tracks. As seen in the recommendations, .</p>
+            <p>The similarity score, which is calculated as <code>1 / (1 + distance)</code>, indicates how close each recommended track is to the input tracks. A higher similarity score means the track is more similar to the input in terms of the features used by the model.</p>
+            
+            <h4>Next Steps and Improvements</h4>
+            <p>While the current KNN-based model provides useful recommendations, there are several steps we can take to improve its performance:</p>
+            <ul>
+                <li><strong>Feature Engineering:</strong> Exploring additional or different features could potentially improve the quality of recommendations. For example, incorporating metadata or lyrics-related features might enhance the musical feature representation.</li>
+                <li><strong>Experimenting with KNN Variants:</strong> We can also experiment with different distance metrics, such as cosine similarity, to see if it better captures the relationships between tracks in the feature space.</li>
+            </ul>
+            <p>By continuously refining the model and expanding the feature set, we aim to provide more personalized and accurate music recommendations in the future.</p>
+            
+            </body>
+            </html>
+            
             <h3>Random Forest Classifier</h3>
             <p>
                 In our proposal, we planned to use a Decision Tree model to perform supervised learning on our dataset. Ultimately, our goal was to create a model capable of multi-class classification of song genre. After our class lecture on Random Forests, we decided to implement a Random Forest model since it capitalizes on the capability of Decision Trees while also incorporating bagging to reduce potential overfitting (a significant risk when using decision trees). Our Random Forest model achieved an overall accuracy of 50%. At first glance, 50% accuracy is not too impressive. However, considering that there are 14 different classes in our dataset, 50% accuracy is significantly better than the accuracy of random guessing which would be around 7%. Below you can see a tabular representation of the models performance over the different classes: 
