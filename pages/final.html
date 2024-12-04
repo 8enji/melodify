@@ -129,14 +129,15 @@
             <h4>Example Music Recommendations</h4>
             <p>For a given set of input tracks, the model calculates the similarity to other tracks in the dataset and provides the top recommendations. Below are the top 5 recommended tracks based on their similarity to a given input set:</p>
             
-            <img src="./images/knn_recommendation.png" height="400px">
+            <img src="./images/knn_recommendation1.png" height="600px">
+            <img src="./images/knn_recommendation2.png" height="600px">
             
             
             <h4>Analysis of the Results</h4>
-            <p>The KNN model effectively identified tracks with high similarity scores, suggesting that the model was able to capture musical features that closely match the input tracks. As seen in the recommendations, .</p>
+            <p>The KNN model effectively identified tracks with high similarity scores, suggesting that the model was able to capture musical features that closely match the input tracks. As seen in the recommendations for the image on the left, the KNN model recommends songs similar to the 3 rock-n-roll songs in the input. In this example, two of the input songs are by Elvis Presley, so the algorithm prefers to recommend Elvis Presley first, as indicated by the top two song recommendations. In the example on the right, three acoustic versions of songs are inputted, and the algorithm prefers to recommend acoustic versions of different songs or songs in the acoustic genre.</p>
             <p>The similarity score, which is calculated as <code>1 / (1 + distance)</code>, indicates how close each recommended track is to the input tracks. A higher similarity score means the track is more similar to the input in terms of the features used by the model.</p>
             
-            <h4>Next Steps and Improvements</h4>
+            <h4>Next Steps and Improvements</h4 >
             <p>While the current KNN-based model provides useful recommendations, there are several steps we can take to improve its performance:</p>
             <ul>
                 <li><strong>Feature Engineering:</strong> Exploring additional or different features could potentially improve the quality of recommendations. For example, incorporating metadata or lyrics-related features might enhance the musical feature representation.</li>
